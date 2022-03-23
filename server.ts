@@ -1,7 +1,5 @@
-const {gql, ApolloServer} = require("apollo-server-lambda");
-const lambdaPlayground =
-	require("graphql-playground-middleware-lambda").default;
-
+import {ApolloServer, gql} from "apollo-server-lambda";
+import lambdaPlayground from "graphql-playground-middleware-lambda";
 const typeDefs = gql`
 	type Query {
 		hello: String
@@ -45,12 +43,14 @@ const resolvers = {
 const server = new ApolloServer({
 	typeDefs,
 	resolvers,
+	//@ts-ignore
 	playground: {
 		endpoint: "/dev/graphql",
 	},
 	allowCache: true,
 });
-exports.handler = server.createHandler({
+export const handler = server.createHandler({
+	//@ts-ignore
 	cors: {
 		origin: "*",
 		credentials: true,
@@ -58,7 +58,7 @@ exports.handler = server.createHandler({
 });
 
 // for local endpointURL is /graphql and for prod it is /stage/graphql
-exports.playgroundHandler = (event, context, callback) => {
+export const playgroundHandler = (event, context, callback) => {
 	context.callbackWaitsForEmptyEventLoop = false;
 	return lambdaPlayground({
 		endpoint: "http://localhost:4000/dev/graphql",
