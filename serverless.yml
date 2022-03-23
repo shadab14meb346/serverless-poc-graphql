@@ -1,0 +1,32 @@
+service: serverless-graphql-rds
+
+frameworkVersion: "3.8.0"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    port: 4000
+
+functions:
+  graphql:
+    handler: server.handler
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors: true
+  playground:
+    handler: server.playgroundHandler
+    events:
+      - http:
+          path: playground
+          method: get
+          cors: true
