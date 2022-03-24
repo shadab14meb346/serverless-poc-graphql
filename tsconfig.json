@@ -1,11 +1,12 @@
 {
 	"compilerOptions": {
-		"allowJs": true,
-		"lib": ["es2015"],
+		"module": "commonjs",
+		"esModuleInterop": true,
+		"target": "es6",
 		"moduleResolution": "node",
-		"preserveConstEnums": true,
 		"sourceMap": true,
-		"strictNullChecks": true,
-		"target": "es5"
+		"allowJs": true,
+		"noImplicitAny": false,
+		"noUnusedLocals": true
 	}
 }

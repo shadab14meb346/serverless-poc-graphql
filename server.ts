@@ -29,7 +29,7 @@ const resolvers = {
 		}),
 	},
 	Mutation: {
-		createUser: (parent, {input}, user) => {
+		createUser: (_, {input}, user) => {
 			console.log(input, user);
 			return {
 				id: "123",
