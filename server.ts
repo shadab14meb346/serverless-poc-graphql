@@ -43,19 +43,8 @@ const resolvers = {
 const server = new ApolloServer({
 	typeDefs,
 	resolvers,
-	//@ts-ignore
-	playground: {
-		endpoint: "/dev/graphql",
-	},
-	allowCache: true,
 });
-export const handler = server.createHandler({
-	//@ts-ignore
-	cors: {
-		origin: "*",
-		credentials: true,
-	},
-});
+export const handler = server.createHandler({});
 
 // for local endpointURL is /graphql and for prod it is /stage/graphql
 export const playgroundHandler = (event, context, callback) => {
