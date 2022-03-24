@@ -3,21 +3,23 @@ import {gql} from "apollo-server-lambda";
 const userTypeDef = gql`
 	type Query {
 		user: User!
+		getAllUsers: [User!]!
 	}
 
 	type Mutation {
 		createUser(input: CreateUserInput!): User!
+		getAllUsers: [User!]!
 	}
 
 	input CreateUserInput {
 		email: String!
-		name: String!
+		username: String!
 	}
 
 	type User {
-		id: String!
+		id: Int!
 		email: String!
-		name: String!
+		username: String!
 	}
 `;
 

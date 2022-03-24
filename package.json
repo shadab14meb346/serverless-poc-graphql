@@ -18,7 +18,9 @@
 		"apollo-server-lambda": "^3.6.5",
 		"graphql": "^16.3.0",
 		"graphql-playground-middleware-lambda": "^1.7.24",
+		"knex": "^1.0.4",
 		"lodash.merge": "^4.6.2",
-		"serverless": "^3.8.0"
+		"serverless": "^3.8.0",
+		"pg": "^8.7.1"
 	}
 }
