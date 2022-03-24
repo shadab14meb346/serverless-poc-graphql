@@ -1,48 +1,33 @@
-import {ApolloServer, gql} from "apollo-server-lambda";
+import {ApolloServer} from "apollo-server-lambda";
 import lambdaPlayground from "graphql-playground-middleware-lambda";
-const typeDefs = gql`
-	type Query {
-		hello: String
-		getMe: User!
-	}
-	type Mutation {
-		createUser(input: CreateUserInput!): User!
-	}
-	input CreateUserInput {
-		name: String!
-		email: String!
-	}
-	type User {
-		id: String!
-		email: String!
-		name: String!
-	}
-`;
-
-const resolvers = {
-	Query: {
-		hello: () => "Hello, New World!, Hussain1",
-		getMe: () => ({
-			id: "123",
-			email: "shadabsaharsa@gmail.com",
-			name: "Shadab",
-		}),
-	},
-	Mutation: {
-		createUser: (_, {input}, user) => {
-			console.log(input, user);
-			return {
-				id: "123",
-				email: "shadabsaharsa@gmail.com",
-				name: "Shadab",
-			};
-		},
-	},
-};
+import {useContext} from "./core/context";
+import resolvers from "./graphql/resolvers";
+import typeDefs from "./graphql/schema";
 
 const server = new ApolloServer({
 	typeDefs,
 	resolvers,
+	context: ({event, context, express}) => {
+		const auth = express.req.headers["authorization"] as string;
+		if (auth) {
+			const [_, token] = auth.split("Bearer ");
+			try {
+				const payload = {
+					sub: "123",
+				};
+				// const payload = await cognito.verify(token);
+				return useContext({
+					type: "user",
+					properties: {
+						id: payload.sub,
+					},
+				});
+			} catch (ex) {}
+		}
+		return useContext({
+			type: "public",
+		});
+	},
 });
 export const handler = server.createHandler({});
 
